@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MyShop — Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 transition-colors duration-300" data-theme="light">
+
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-40">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-2xl font-extrabold text-sky-600 dark:text-sky-400">MyShop</a>
+      </div>
+      <div class="flex-1 max-w-xl mx-4 hidden md:block">
+        <div class="relative">
+          <input id="searchInput" type="search" placeholder="Search products..." class="w-full border rounded-md px-3 py-2 pr-10"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="themeToggle" class="p-2 rounded border bg-white dark:bg-slate-800" title="Toggle dark mode">
+          <svg id="themeIcon" class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="1.5" d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+        </button>
+
+        <button id="openMiniCart" aria-label="Open cart drawer" class="relative inline-flex items-center gap-2 p-2">
+          <svg class="w-6 h-6 text-slate-600 dark:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6.4A2 2 0 007.8 21h8.4a2 2 0 001.99-1.6L19 13M7 13L5.4 5"></path></svg>
+          <span id="cartCount" class="badge">0</span>
+        </button>
+
+        <button id="mobileMenuBtn" class="md:hidden p-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <section class="parallax bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1400&q=80')] rounded-lg p-6 mb-6 flex flex-col md:flex-row items-center gap-6">
+      <div class="flex-1">
+        <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100">Shop the best products</h1>
+        <p class="text-slate-600 dark:text-slate-300 mt-2">Pro demo with animations, cart drawer, undo & promos.</p>
+        <a href="#products" class="inline-block mt-4 bg-sky-600 text-white px-4 py-2 rounded-lg shadow">Shop Now</a>
+      </div>
+      <div class="w-full md:w-1/3">
+        <div class="bg-sky-50 dark:bg-slate-700 p-4 rounded">
+          <label class="block text-sm text-slate-700 dark:text-slate-200">Max price: <span id="maxPriceLabel">$0</span></label>
+          <input id="priceRange" type="range" min="0" max="1000" value="1000" class="w-full mt-3"/>
+          <div class="flex gap-2 mt-3">
+            <select id="categorySelect" class="flex-1 border rounded px-3 py-2 text-sm bg-white dark:bg-slate-800 dark:text-slate-200">
+              <option value="all">All categories</option>
+            </select>
+            <button id="resetFilters" class="bg-white border px-3 py-2 rounded text-sm">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></section>
+
+    <div id="loadingEl" class="text-center mt-8 hidden">
+      <svg class="animate-spin h-10 w-10 mx-auto text-sky-600" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.15"></circle><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path></svg>
+      <p class="text-slate-600 mt-2">Loading products...</p>
+    </div>
+
+    <div id="emptyMsg" class="hidden text-center text-slate-600 mt-12">No products found.</div>
+  </main>
+
+  <!-- Mini cart drawer -->
+  <aside id="miniCart" class="fixed right-0 top-0 h-full w-96 bg-white dark:bg-slate-900 shadow-xl transform translate-x-full transition-transform z-50">
+    <div class="p-4 flex items-center justify-between border-b dark:border-slate-700">
+      <h3 class="font-bold">Your Cart</h3>
+      <button id="closeMiniCart" class="px-3 py-1 rounded">Close</button>
+    </div>
+    <div id="miniCartItems" class="p-4 space-y-4 overflow-auto h-[calc(100%-220px)]"></div>
+    <div class="p-4 border-t dark:border-slate-700">
+      <div class="flex justify-between items-center mb-3"><div>Subtotal</div><div id="miniSubtotal">$0.00</div></div>
+      <div class="flex gap-2">
+        <button id="viewCartBtn" class="flex-1 border px-3 py-2 rounded">View Cart</button>
+        <button id="miniCheckoutBtn" class="flex-1 bg-sky-600 text-white px-3 py-2 rounded">Checkout</button>
+      </div>
+    </div>
+  </aside>
+<div id="miniCartOverlay"></div>
+
+  <!-- Scroll to top -->
+  <button id="scrollTopBtn" title="Scroll to top">↑</button>
+
+  <!-- Toast root -->
+  <div id="toastRoot" class="fixed right-4 bottom-6 z-50 space-y-2"></div>
+
+  <script type="module" src="assets/js/app.js"></script>
+  <script src="assets/js/toast.js"></script>
+
+<footer class="bg-white dark:bg-slate-900 border-t dark:border-slate-700 mt-12">
+  <div class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+      <h4 class="font-bold">MyShop</h4>
+      <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Modern demo store — built for demos and hackathons.</p>
+    </div>
+    <div>
+      <h4 class="font-bold">Company</h4>
+      <ul class="text-sm text-slate-600 dark:text-slate-300 mt-2 space-y-1">
+        <li>About</li><li>Careers</li><li>Press</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold">Support</h4>
+      <ul class="text-sm text-slate-600 dark:text-slate-300 mt-2 space-y-1">
+        <li>Contact: support@myshop.example</li><li>Terms</li><li>Privacy</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+

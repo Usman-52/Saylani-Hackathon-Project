@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cart - MyShop</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 transition-colors duration-300">
+
+<header class="bg-white dark:bg-slate-900 shadow">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="index.html" class="text-xl font-extrabold text-sky-600 dark:text-sky-400">MyShop</a>
+    <a href="index.html" class="text-slate-600 dark:text-slate-300">Continue shopping</a>
+  </div>
+</header>
+
+<main class="container mx-auto px-4 py-8">
+  <h1 class="text-xl font-bold mb-6">Your Cart</h1>
+
+  <div id="cartContainer" class="bg-white dark:bg-slate-800 rounded shadow p-4">
+    <!-- items injected here -->
+  </div>
+
+  <div class="mt-6 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4">
+    <div class="flex items-center gap-3">
+      <input id="promoCode" placeholder="Promo code (e.g. SAVE10)" class="border rounded px-3 py-2 bg-white dark:bg-slate-700"/>
+      <button id="applyPromo" class="bg-sky-600 text-white px-3 py-2 rounded">Apply</button>
+    </div>
+
+    <div class="text-lg font-semibold">Total: <span id="totalAmount">$0.00</span></div>
+    <div class="flex gap-3">
+      <a href="index.html" class="px-4 py-2 border rounded">Continue Shopping</a>
+      <a id="checkoutBtn" href="checkout.html" class="px-4 py-2 bg-sky-600 text-white rounded">Proceed to Checkout</a>
+    </div>
+  </div>
+</main>
+
+<div id="toastRoot" class="fixed right-4 bottom-6 z-50 space-y-2"></div>
+<script type="module">
+  import { updateCartBadge, loadCartPage } from './assets/js/app.js';
+  updateCartBadge();
+  loadCartPage();
+</script>
+<script src="assets/js/toast.js"></script>
+
+<footer class="bg-white dark:bg-slate-900 border-t dark:border-slate-700 mt-12">
+  <div class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+      <h4 class="font-bold">MyShop</h4>
+      <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Modern demo store — built for demos and hackathons.</p>
+    </div>
+    <div>
+      <h4 class="font-bold">Company</h4>
+      <ul class="text-sm text-slate-600 dark:text-slate-300 mt-2 space-y-1">
+        <li>About</li><li>Careers</li><li>Press</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold">Support</h4>
+      <ul class="text-sm text-slate-600 dark:text-slate-300 mt-2 space-y-1">
+        <li>Contact: support@myshop.example</li><li>Terms</li><li>Privacy</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+
